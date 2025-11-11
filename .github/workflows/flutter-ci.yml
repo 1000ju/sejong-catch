@@ -1,0 +1,134 @@
+name: 🚀 Flutter CI - 코드 품질 검사
+
+# 🎯 트리거 조건: frontend, merge 브랜치에서 코드 변경 시
+on:
+  push:
+    branches: [frontend, merge]
+    paths:
+      - 'sejong_catch-frontend/**'
+      - '.github/workflows/flutter-ci.yml'
+  pull_request:
+    branches: [frontend, merge, main]
+    paths:
+      - 'sejong_catch-frontend/**'
+      - '.github/workflows/flutter-ci.yml'
+
+# 🔧 환경 변수
+env:
+  FLUTTER_VERSION: '3.24.0'  # 최신 stable 버전
+  WORKING_DIRECTORY: ./sejong_catch-frontend
+
+jobs:
+  # 📊 코드 품질 검사 (like 김치 발효도 체크!)
+  code_quality:
+    name: 📋 코드 품질 검사
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        
+      - name: ⚡ Flutter 환경 설정
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+          
+      - name: 📦 Flutter Doctor 체크
+        run: flutter doctor -v
+        
+      - name: 🔍 의존성 설치 (치킨 주문하듯 빠르게!)
+        run: flutter pub get
+        
+      - name: 🧹 코드 분석 (깔끔하게 정리!)
+        run: |
+          echo "🔍 코드 분석을 시작합니다..."
+          flutter analyze
+          if [ $? -eq 0 ]; then
+            echo "✅ 코드가 김치처럼 완벽하게 발효됐네요! 🥬"
+          else
+            echo "❌ 아이고... 코드에 뭔가 이상한 냄새가? 🥲"
+            exit 1
+          fi
+          
+      - name: 🧪 테스트 실행 (버그 사냥 시작!)
+        run: |
+          echo "🧪 테스트를 시작합니다..."
+          flutter test --coverage
+          if [ $? -eq 0 ]; then
+            echo "🎉 모든 테스트가 성공! 이제 치킨 시켜도 될 것 같네요! 🍗"
+          else
+            echo "💥 테스트 실패! 디버깅 타임이군요... ☕"
+            exit 1
+          fi
+
+  # 🏗️ 빌드 검증 (멀티 플랫폼)
+  build_verification:
+    name: 🏗️ 빌드 검증
+    runs-on: ubuntu-latest
+    needs: code_quality
+    strategy:
+      matrix:
+        platform: [android, web]
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        
+      - name: ⚡ Flutter 환경 설정
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+          
+      - name: 📦 의존성 설치
+        run: flutter pub get
+        
+      # 🤖 Android 빌드
+      - name: 🤖 Android APK 빌드
+        if: matrix.platform == 'android'
+        run: |
+          echo "🤖 Android 빌드를 시작합니다..."
+          flutter build apk --debug
+          echo "✅ Android APK가 성공적으로 빌드됐어요! 📱"
+          
+      # 🌐 Web 빌드  
+      - name: 🌐 Web 빌드
+        if: matrix.platform == 'web'
+        run: |
+          echo "🌐 웹 빌드를 시작합니다..."
+          flutter build web
+          echo "✅ 웹 빌드가 완료됐어요! 브라우저에서 만나요! 💻"
+          
+      # 📊 빌드 결과 업로드 (아티팩트)
+      - name: 📊 빌드 결과 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}-build-${{ github.sha }}
+          path: |
+            ${{ env.WORKING_DIRECTORY }}/build/app/outputs/flutter-apk/*.apk
+            ${{ env.WORKING_DIRECTORY }}/build/web/
+          retention-days: 5
+
+  # 🎯 빌드 성공 알림
+  success_notification:
+    name: 🎉 성공 완료
+    runs-on: ubuntu-latest
+    needs: [code_quality, build_verification]
+    if: success()
+    
+    steps:
+      - name: 🎊 축하 메시지
+        run: |
+          echo "🎉🎉🎉 CI 파이프라인이 성공적으로 완료됐습니다! 🎉🎉🎉"
+          echo "✨ 코드가 세종대 정문만큼 깔끔해졌어요!"
+          echo "🍗 이제 치킨 한 마리 시켜도 될 것 같네요!"
+          echo "🚀 다음 단계로 고고씽!"

@@ -1,0 +1,90 @@
+# 프로젝트 이름(name): 패키지의 고유 식별자입니다.
+name: sejong_catch_frontend
+
+# description: 프로젝트에 대한 간단한 설명입니다.
+description: "A new Flutter project."
+
+# publish_to: 'none'은 이 프로젝트가 pub.dev에 공개되지 않도록 설정합니다. 만약 공개하려면 삭제하세요.
+publish_to: 'none'
+
+# version: 앱의 버전과 빌드 번호로, Android/iOS/Windows 배포시 사용됩니다.
+version: 1.0.0+1
+
+# environment: 사용할 Dart SDK 버전 범위를 지정합니다.
+environment:
+  sdk: ^3.9.2
+
+# dependencies: 프로젝트에서 사용할 외부 패키지와 플러터 SDK를 지정하는 섹션입니다.
+dependencies:
+  # flutter: 플러터 SDK를 의존성으로 지정합니다.
+  flutter:
+    sdk: flutter
+
+  # cupertino_icons: iOS 스타일 아이콘 폰트를 제공합니다. CupertinoIcons 클래스와 함께 사용합니다.
+  cupertino_icons: ^1.0.8
+
+  # 상태 관리 및 데이터 모델
+  provider: ^6.1.5                # 상태 관리 라이브러리
+  freezed_annotation: ^3.1.0      # 불변 데이터 클래스를 위한 어노테이션
+  json_annotation: ^4.9.0         # JSON 자동 직렬화 어노테이션
+
+  # 라우팅 & 네비게이션
+  go_router: ^16.2.1              # 라우트 및 네비게이션 관리
+
+  # 네트워크 & 인증
+  dio: ^5.9.0                     # HTTP 클라이언트
+  retrofit: ^4.7.2                # REST API 클라이언트 생성
+  flutter_secure_storage: ^9.2.4  # 민감 데이터 안전 저장
+
+  # UI/UX 레이아웃
+  flutter_screenutil: ^5.9.3      # 화면, 해상도 대응 유틸리티
+  cached_network_image: ^3.4.1    # 네트워크 이미지 캐싱
+  shimmer: ^3.0.0                 # 로딩 애니메이션 효과
+  smooth_page_indicator: ^1.2.1   # 페이지 이동 인디케이터 UI
+
+  # 리스트 & 데이터 표시
+  infinite_scroll_pagination: ^5.1.1 # 무한 스크롤 페이징 처리
+  pull_to_refresh: ^2.0.0            # 당겨서 새로고침 UI 패턴
+
+  # # 알림 & 실시간 통신 - 패키지 에러 발생
+  # firebase_messaging: ^16.0.1        # 푸시 알림(Firebase Cloud Messaging)
+  # awesome_notifications: ^0.10.1     # 로컬 알림 생성 및 관리
+  # web_socket_channel: ^3.0.3         # 웹소켓 실시간 통신
+
+  # # 앱 분석 및 안정성 관리
+  # firebase_analytics: ^12.0.1        # 앱 사용자 분석 및 통계
+  # firebase_crashlytics: ^5.0.1       # 앱 크래시 리포팅
+
+  # 데이터 시각화(운영자용)
+  syncfusion_flutter_charts: ^31.1.17 # 차트 위젯 패키지
+
+# dev_dependencies: 개발 중에 사용되는 테스트 및 코드 생성 도구를 지정합니다.
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # 코드 품질 및 자동화 도구
+  flutter_lints: ^5.0.0            # 추천 코드 린트 규칙
+  build_runner: ^2.4.15            # 코드 자동 생성 툴(Freezed, Json)
+  freezed: ^3.2.0                  # 데이터 모델 코드 생성 패키지(개발용)
+  json_serializable: ^6.11.1       # Json 모델 코드 자동 생성(개발용)
+
+  # 앱 통합 관리 도구
+  flutter_launcher_icons: ^0.14.4   # 앱 런처 아이콘 자동 생성
+  change_app_package_name: ^1.5.0   # 앱 패키지명 변경 자동화
+
+# flutter 섹션: 앱에 관련된 설정(머티리얼 디자인 아이콘, 자산, 글꼴 등)
+flutter:
+  uses-material-design: true        # 머티리얼 아이콘 포함 설정
+
+  # 아래에 assets 또는 fonts 옵션 추가 가능
+  # 예시:
+  # assets:
+  #   - images/
+  #   - assets/
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
